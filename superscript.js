@@ -91,6 +91,11 @@ const progressBar = document.getElementById("progressBar");
 // The get favourites button element.
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 
+console.log(breedSelect);
+console.log(infoDump);
+console.log(progressBar);
+console.log(getFavouritesBtn);
+
 // Step 0: Store your API key here for reference and easy access.
 const API_KEY = "live_MX5CU9Yi0ZSHqrOdmoYqNnPix9AWReiQphPlpdWSNGD4jpqm23TTVf5bzI3d4Y2I";
 
@@ -102,6 +107,25 @@ const API_KEY = "live_MX5CU9Yi0ZSHqrOdmoYqNnPix9AWReiQphPlpdWSNGD4jpqm23TTVf5bzI
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
+initialLoad()
+
+async function initialLoad() {
+  const api = 'https://api.thecatapi.com/v1/breeds'
+
+  try {
+    const response = await fetch(api) // get response from api URL
+    const data = await response.json() // convert to JSON
+    data.forEach((breed) => {
+      const optionHtml = document.createElement('option')
+      optionHtml.value = breed.id
+      optionHtml.innerText = breed.name
+      breedSelect.append(optionHtml)
+    })
+  } catch (error) {
+    console.log(error);
+  }
+  // console.log(breedSelect);
+}
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
