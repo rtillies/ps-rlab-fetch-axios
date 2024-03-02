@@ -2,7 +2,7 @@
 
 * **Name**: Richard Tillies
 * **Date**: March 5, 2024
-* **Instructions**: [R-ALAB Working with External Data](rlab-external-data.pdf)
+* **Instructions**: [R-ALAB Working with External Data](docs/rlab-external-data.pdf)
 
 ## Objectives
 
