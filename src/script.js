@@ -108,22 +108,38 @@ const API_KEY = "live_MX5CU9Yi0ZSHqrOdmoYqNnPix9AWReiQphPlpdWSNGD4jpqm23TTVf5bzI
  * This function should execute immediately.
  */
 
-let breedData = initialLoad()
+initialLoad()
+// axios.defaults.headers.common['x-api-key'] = API_KEY;
+// axios.defaults.headers.common['x-api-host'] = 'https://api.thecatapi.com/v1/'
+
 
 async function initialLoad() {
   const api = 'https://api.thecatapi.com/v1/breeds'
+  const config = {
+    baseURL: 'https://api.thecatapi.com/v1/',
+		headers: {
+      'Content-Type': 'application/json',
+			'x-api-host': api,
+			'x-api-key': API_KEY
+		}
+	};
 
   try {
     // get response from api URL with headers
-    const response = await fetch(api, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      }
-    }) 
-    const data = await response.json() // convert to JSON
+    // const response = await fetch(api, {
+    //   headers: {
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   }
+    // }) 
+    // const data = await response.json() // convert to JSON
     // console.log(data);
 
-    data.forEach((breed) => {
+    const response = await axios.get(
+      api, config
+    );
+    // return res.data;
+
+    response.data.forEach((breed) => {
       const optionHtml = document.createElement('option')
       optionHtml.value = breed.id
       optionHtml.innerText = breed.name
