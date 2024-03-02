@@ -227,6 +227,7 @@ async function selectBreed(event) {
  * - As an added challenge, try to do this on your own without referencing the lesson material.
  */
 axios.interceptors.request.use(request => {
+  progressBar.style.width = '0%'
   request.metadata = request.metadata || {};
   request.metadata.startTime = new Date().getTime();
   return request;
@@ -249,19 +250,17 @@ axios.interceptors.response.use(
 });
 
 /**
- * 6. Next, we'll create a progress bar to indicate the request is in progress.
- * - The progressBar element has already been created for you.
- *  - You need only to modify its "width" style property to align with the request progress.
- * - In your request interceptor, set the width of the progressBar element to 0%.
- *  - This is to reset the progress with each request.
- * - Research the axios onDownloadProgress config option.
- * - Create a function "updateProgress" that receives a ProgressEvent object.
- *  - Pass this function to the axios onDownloadProgress config option in your event handler.
- * - console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
- *  - Update the progress of the request using the properties you are given.
- * - Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire
- *   once or twice per request to this API. This is still a concept worth familiarizing yourself
- *   with for future projects.
+ 6. Next, we'll create a progress bar to indicate the request is in progress.
+  * The progressBar element has already been created for you.
+    - You need only to modify its "width" style property to align with the request progress.
+  * In your request interceptor, set the width of the progressBar element to 0%.
+    - This is to reset the progress with each request.
+  * Research the axios onDownloadProgress config option.
+  * Create a function "updateProgress" that receives a ProgressEvent object.
+    - Pass this function to the axios onDownloadProgress config option in your event handler.
+  * console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
+    - Update the progress of the request using the properties you are given.
+  * Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire once or twice per request to this API. This is still a concept worth familiarizing yourself with for future projects.
  */
 
 /**
