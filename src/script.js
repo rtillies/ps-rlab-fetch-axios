@@ -193,6 +193,7 @@ async function selectBreed(event) {
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
+  // axios.html runs script src/axios.js
 
 /**
  * 4. Change all of your fetch() functions to axios!
