@@ -126,7 +126,11 @@ async function initialLoad() {
       breedSelect.append(optionHtml)
     })
     // console.log(data);
-    return data
+
+    // Populate with selected breed upon page load 
+    selectBreed({target: breedSelect})
+
+    // return data
   } catch (error) {
     console.log(error);
   }
@@ -150,8 +154,11 @@ breedSelect.addEventListener('change', selectBreed)
 
 async function selectBreed(event) {
   // console.log("Target", event.target.value);
+  console.log("Event", event);
+  console.log("Target", event.target);
+  console.log("Value", event.target.value);
   const breedId = event.target.value;
-
+  
   const api = ` https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=${breedId}&api_key=${API_KEY}`
   console.log(api);
   
