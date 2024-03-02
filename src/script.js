@@ -125,19 +125,7 @@ async function initialLoad() {
 	};
 
   try {
-    // get response from api URL with headers
-    // const response = await fetch(api, {
-    //   headers: {
-    //     'Content-Type': 'application/json; charset=UTF-8',
-    //   }
-    // }) 
-    // const data = await response.json() // convert to JSON
-    // console.log(data);
-
-    const response = await axios.get(
-      api, config
-    );
-    // return res.data;
+    const response = await axios.get(api, config);
 
     response.data.forEach((breed) => {
       const optionHtml = document.createElement('option')
@@ -147,7 +135,7 @@ async function initialLoad() {
     })
 
     // Populate with selected breed upon page load 
-    // selectBreed({target: breedSelect})
+    selectBreed({target: breedSelect})
 
     // return data
   } catch (error) {
@@ -178,21 +166,32 @@ async function selectBreed(event) {
   console.log("Value", event.target.value);
   const breedId = event.target.value;
   
-  const api = ` https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=${breedId}&api_key=${API_KEY}`
+  // const api = `https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=${breedId}&api_key=${API_KEY}`
+  const api = `https://api.thecatapi.com/v1/images/search`
   console.log(api);
+
+  const config = {
+    baseURL: 'https://api.thecatapi.com/v1/',
+		headers: {
+      'Content-Type': 'application/json',
+			'x-api-host': api,
+			'x-api-key': API_KEY
+		},
+    params: {
+      limit: 10, 
+      breed_ids: breedId,
+      api_key: API_KEY
+    }
+	};
+
   
   try {
     clear() // clear Carousel of previous images
 
-    // get response from api URL with headers
-    const response = await fetch(api, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      }
-    }) 
-    const data = await response.json() // convert to JSON
-    console.log(data);
-    data.forEach((element) => {
+    const response = await axios.get(api, config);
+
+    console.log(response);
+    response.data.forEach((element) => {
       const imgSrc = element.url
       const imgAlt = element.breeds.description
       const imgId = element.id
