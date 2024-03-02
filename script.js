@@ -128,7 +128,7 @@ async function initialLoad() {
     // console.log(data);
 
     // Populate with selected breed upon page load 
-    selectBreed({target: breedSelect})
+    // selectBreed({target: breedSelect})
 
     // return data
   } catch (error) {
