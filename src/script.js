@@ -111,21 +111,24 @@ const API_KEY = "live_MX5CU9Yi0ZSHqrOdmoYqNnPix9AWReiQphPlpdWSNGD4jpqm23TTVf5bzI
 let breedData = initialLoad()
 
 async function initialLoad() {
-  // selectBreed()
   const api = 'https://api.thecatapi.com/v1/breeds'
 
   try {
-    const response = await fetch(api) // get response from api URL
-    // const response = await fetch(breedApi) // get response from api URL
+    // get response from api URL with headers
+    const response = await fetch(api, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      }
+    }) 
     const data = await response.json() // convert to JSON
     // console.log(data);
+
     data.forEach((breed) => {
       const optionHtml = document.createElement('option')
       optionHtml.value = breed.id
       optionHtml.innerText = breed.name
       breedSelect.append(optionHtml)
     })
-    // console.log(data);
 
     // Populate with selected breed upon page load 
     // selectBreed({target: breedSelect})
@@ -163,8 +166,14 @@ async function selectBreed(event) {
   console.log(api);
   
   try {
-    clear()
-    const response = await fetch(api) // get response from api URL
+    clear() // clear Carousel of previous images
+
+    // get response from api URL with headers
+    const response = await fetch(api, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      }
+    }) 
     const data = await response.json() // convert to JSON
     console.log(data);
     data.forEach((element) => {
@@ -174,7 +183,8 @@ async function selectBreed(event) {
       const item = createCarouselItem(imgSrc, imgAlt, imgId)
       appendCarousel(item)
     })
-    start()
+
+    start() // run Carousel with new images
   } catch (error) {
     console.log(error);
   }
@@ -183,6 +193,7 @@ async function selectBreed(event) {
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
  */
+
 /**
  * 4. Change all of your fetch() functions to axios!
  * - axios has already been imported for you within index.js.
