@@ -219,12 +219,34 @@ async function selectBreed(event) {
  *   by setting a default header with your API key so that you do not have to
  *   send it manually with all of your requests! You can also set a default base URL!
  */
+
 /**
  * 5. Add axios interceptors to log the time between request and response to the console.
  * - Hint: you already have access to code that does this!
  * - Add a console.log statement to indicate when requests begin.
  * - As an added challenge, try to do this on your own without referencing the lesson material.
  */
+axios.interceptors.request.use(request => {
+  request.metadata = request.metadata || {};
+  request.metadata.startTime = new Date().getTime();
+  return request;
+});
+
+axios.interceptors.response.use(
+  (response) => {
+      response.config.metadata.endTime = new Date().getTime();
+      response.config.metadata.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+
+      console.log(`Request took ${response.config.metadata.durationInMS} milliseconds.`)
+      return response;
+  },
+  (error) => {
+      error.config.metadata.endTime = new Date().getTime();
+      error.config.metadata.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+
+      console.log(`Request took ${error.config.metadata.durationInMS} milliseconds.`)
+      throw error;
+});
 
 /**
  * 6. Next, we'll create a progress bar to indicate the request is in progress.
