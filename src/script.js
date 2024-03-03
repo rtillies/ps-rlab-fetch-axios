@@ -258,10 +258,15 @@ axios.interceptors.response.use(
   * Research the axios onDownloadProgress config option.
   * Create a function "updateProgress" that receives a ProgressEvent object.
     - Pass this function to the axios onDownloadProgress config option in your event handler.
-  * console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
+  * console.log your ProgressEvent object within updateProgress, and familiarize yourself with its structure.
     - Update the progress of the request using the properties you are given.
   * Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire once or twice per request to this API. This is still a concept worth familiarizing yourself with for future projects.
  */
+function updateProgress(pe) {
+  let percentCompleted = Math.round((pe.loaded * 100) / pe.total);
+    console.log(pe.lengthComputable)
+    console.log(percentCompleted);
+}
 
 /**
  * 7. As a final element of progress indication, add the following to your axios interceptors:
