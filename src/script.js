@@ -111,6 +111,7 @@ const API_KEY = "live_MX5CU9Yi0ZSHqrOdmoYqNnPix9AWReiQphPlpdWSNGD4jpqm23TTVf5bzI
  * This function should execute immediately.
  */
 
+const descriptions = []
 initialLoad()
 // axios.defaults.headers.common['x-api-key'] = API_KEY;
 // axios.defaults.headers.common['x-api-host'] = 'https://api.thecatapi.com/v1/'
@@ -129,12 +130,19 @@ async function initialLoad() {
 
   try {
     const response = await axios.get(api, config);
+    console.log("Initial Load", response);
 
     response.data.forEach((breed) => {
       const optionHtml = document.createElement('option')
       optionHtml.value = breed.id
       optionHtml.innerText = breed.name
       breedSelect.append(optionHtml)
+
+      const info = {
+        id: breed.id,
+        description: breed.description
+      }
+      descriptions.push(info) 
     })
 
     // Populate with selected breed upon page load 
@@ -167,6 +175,12 @@ async function selectBreed(event) {
   console.log("Target", event.target);
   console.log("Value", event.target.value);
   const breedId = event.target.value;
+
+  // Populate infoDump with breed description
+  const info = descriptions.find(item => {
+    return item.id == breedId
+  })
+  infoDump.innerText = info.description
   
   // const api = `https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=${breedId}&api_key=${API_KEY}`
   const api = `https://api.thecatapi.com/v1/images/search`
@@ -194,7 +208,7 @@ async function selectBreed(event) {
 
     const response = await axios.get(api, config);
 
-    // console.log(response);
+    console.log("Breed response", response.data);
     response.data.forEach((element) => {
       const imgSrc = element.url
       const imgAlt = element.breeds.description
