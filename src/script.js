@@ -92,6 +92,7 @@ const infoDump = document.getElementById("infoDump");
 const progressBar = document.getElementById("progressBar");
 // The get favourites button element.
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
+getFavouritesBtn.addEventListener('click', getFavourites)
 
 // console.log(breedSelect);
 // console.log(infoDump);
@@ -332,6 +333,41 @@ async function favourite(imgId) {
  *    If that isn't in its own function, maybe it should be so you don't have to
  *    repeat yourself in this section.
  */
+async function getFavourites() {
+  const api = `https://api.thecatapi.com/v1/favourites`
+
+  console.log("URL", api);
+  console.log("API key", API_KEY);
+
+  const config = {
+    baseURL: 'https://api.thecatapi.com/v1/',
+		headers: {
+      'Content-Type': 'application/json',
+			'x-api-host': api,
+			'x-api-key': API_KEY
+    },
+	};
+
+  try {
+    clear() // clear Carousel of previous images
+
+    const response = await axios.get(api, config)
+    console.log(response);
+
+    response.data.forEach((element, index) => {
+      const imgSrc = element.image.url
+      const imgAlt = `Favorite #${index} created at ${element.created_at}`
+      const imgId = element.image_id
+      const item = createCarouselItem(imgSrc, imgAlt, imgId)
+      appendCarousel(item)
+    })
+
+    start() // run Carousel with favourite images
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 /**
  * 10. Test your site, thoroughly!
