@@ -181,7 +181,20 @@ async function selectBreed(event) {
       limit: 10, 
       breed_ids: breedId,
       api_key: API_KEY
-    }
+    },
+    // onDownloadProgress: updateProgress(progressEvent)
+    // onDownloadProgress: (progressEvent) => {
+      // console.log(progressEvent)
+      // vm.scanPer = Math.round(
+      //     (progressEvent.loaded * 100) / progressEvent.total
+      // vm.scanPer = Math.round(
+      //     (progressEvent.loaded * 100) / progressEvent.total
+      // );
+    // }
+    // onDownloadProgress: function(progressEvent) {
+    //   updateProgress
+    //   console.log('download', progressEvent);
+    // }
 	};
 
   
@@ -190,7 +203,7 @@ async function selectBreed(event) {
 
     const response = await axios.get(api, config);
 
-    console.log(response);
+    // console.log(response);
     response.data.forEach((element) => {
       const imgSrc = element.url
       const imgAlt = element.breeds.description
@@ -264,8 +277,9 @@ axios.interceptors.response.use(
  */
 function updateProgress(pe) {
   let percentCompleted = Math.round((pe.loaded * 100) / pe.total);
-    console.log(pe.lengthComputable)
-    console.log(percentCompleted);
+  console.log(pe);
+  console.log(pe.lengthComputable)
+  console.log(percentCompleted);
 }
 
 /**
