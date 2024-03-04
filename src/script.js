@@ -296,7 +296,31 @@ function updateProgress(progressEvent) {
  */
 // export async function favourite(imgId) {
 async function favourite(imgId) {
-  // your code here
+  const api = `https://api.thecatapi.com/v1/favourites`
+
+  const rawBody = JSON.stringify({ 
+    "image_id": imgId,
+    // "sub_id":"user-123"
+  });
+  console.log("URL", api);
+  console.log("Image", rawBody);
+  console.log("API key", API_KEY);
+
+  const config = {
+    baseURL: 'https://api.thecatapi.com/v1/',
+		headers: {
+      'Content-Type': 'application/json',
+			'x-api-host': api,
+			'x-api-key': API_KEY
+    },
+	};
+
+  try {
+    const response = await axios.post(api, rawBody, config)
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /**
