@@ -182,19 +182,9 @@ async function selectBreed(event) {
       breed_ids: breedId,
       api_key: API_KEY
     },
-    // onDownloadProgress: updateProgress(progressEvent)
-    // onDownloadProgress: (progressEvent) => {
-      // console.log(progressEvent)
-      // vm.scanPer = Math.round(
-      //     (progressEvent.loaded * 100) / progressEvent.total
-      // vm.scanPer = Math.round(
-      //     (progressEvent.loaded * 100) / progressEvent.total
-      // );
-    // }
-    // onDownloadProgress: function(progressEvent) {
-    //   updateProgress
-    //   console.log('download', progressEvent);
-    // }
+    onDownloadProgress: (progressEvent) => {
+      updateProgress(progressEvent)
+    }
 	};
 
   
@@ -275,11 +265,14 @@ axios.interceptors.response.use(
     - Update the progress of the request using the properties you are given.
   * Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire once or twice per request to this API. This is still a concept worth familiarizing yourself with for future projects.
  */
-function updateProgress(pe) {
-  let percentCompleted = Math.round((pe.loaded * 100) / pe.total);
-  console.log(pe);
-  console.log(pe.lengthComputable)
-  console.log(percentCompleted);
+function updateProgress(progressEvent) {
+  console.log(progressEvent)
+  let width = Math.round(
+    (progressEvent.loaded * 100) / progressEvent.total
+  );
+  progressBar.style.width = `${width}%`
+
+  console.log("width", width);
 }
 
 /**
