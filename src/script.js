@@ -188,7 +188,6 @@ async function selectBreed(event) {
       updateProgress(progressEvent)
     }
 	};
-
   
   try {
     clear() // clear Carousel of previous images
@@ -297,7 +296,7 @@ function updateProgress(progressEvent) {
  */
 // export async function favourite(imgId) {
 async function favourite(imgId) {
-  const api = `https://api.thecatapi.com/v1/favourites`
+  const api = `https://api.thecatapi.com/v1/favourites/`
 
   const rawBody = JSON.stringify({ 
     "image_id": imgId,
@@ -316,9 +315,25 @@ async function favourite(imgId) {
     },
 	};
 
+    // const favs = getFavourites()
+    const favorites = await axios.get(api, config)
+    console.log(favorites.data);
+  
+    const thisImage = favorites.data.find((item) => {
+      console.log(item.image_id, imgId);
+      return item.image_id == imgId
+    })
+    console.log("This image", thisImage);
+
   try {
-    const response = await axios.post(api, rawBody, config)
-    console.log(response);
+    if (thisImage) {
+      console.log('Delete this image from favs');
+      const deleteImage = axios.delete(api+thisImage.id, config)
+    } else {
+      console.log('Add this image to favs');
+      const response = await axios.post(api, rawBody, config)
+      console.log(response);
+    }
   } catch (error) {
     console.log(error);
   }
@@ -334,7 +349,7 @@ async function favourite(imgId) {
  *    repeat yourself in this section.
  */
 async function getFavourites() {
-  const api = `https://api.thecatapi.com/v1/favourites`
+  const api = `https://api.thecatapi.com/v1/favourites/`
 
   console.log("URL", api);
   console.log("API key", API_KEY);
