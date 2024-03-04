@@ -82,6 +82,8 @@ function start() {
 // import * as Carousel from "./Carousel.js";
 // import axios from "axios";
 
+// Body Element for step 7
+const body = document.querySelector("body")
 // The breed selection input element.
 const breedSelect = document.getElementById("breedSelect");
 // The information section div element.
@@ -160,7 +162,6 @@ async function initialLoad() {
 breedSelect.addEventListener('change', selectBreed)
 
 async function selectBreed(event) {
-  // console.log("Target", event.target.value);
   console.log("Event", event);
   console.log("Target", event.target);
   console.log("Value", event.target.value);
@@ -231,6 +232,7 @@ async function selectBreed(event) {
  */
 axios.interceptors.request.use(request => {
   progressBar.style.width = '0%'
+  body.style.cursor = 'progress'
   request.metadata = request.metadata || {};
   request.metadata.startTime = new Date().getTime();
   return request;
@@ -238,18 +240,19 @@ axios.interceptors.request.use(request => {
 
 axios.interceptors.response.use(
   (response) => {
-      response.config.metadata.endTime = new Date().getTime();
-      response.config.metadata.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
-
-      console.log(`Request took ${response.config.metadata.durationInMS} milliseconds.`)
-      return response;
+    response.config.metadata.endTime = new Date().getTime();
+    response.config.metadata.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
+    
+    console.log(`Request took ${response.config.metadata.durationInMS} milliseconds.`)
+    body.style.cursor = 'default'
+    return response;
   },
   (error) => {
-      error.config.metadata.endTime = new Date().getTime();
-      error.config.metadata.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
+    error.config.metadata.endTime = new Date().getTime();
+    error.config.metadata.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
 
-      console.log(`Request took ${error.config.metadata.durationInMS} milliseconds.`)
-      throw error;
+    console.log(`Request took ${error.config.metadata.durationInMS} milliseconds.`)
+    throw error;
 });
 
 /**
